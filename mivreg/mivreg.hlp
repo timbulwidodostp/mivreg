@@ -1,0 +1,162 @@
+{smcl}
+{* 20sep2018}{...}
+{viewerjumpto "Title" "mivreg##title"}{...}
+{viewerjumpto "Syntax" "mivreg##syntax"}{...}
+{viewerjumpto "Description" "mivreg##description"}{...}
+{viewerjumpto "Options" "mivreg##options"}{...}
+{viewerjumpto "Examples" "mivreg##examples"}{...}
+{viewerjumpto "Stored results" "mivreg##results"}{...}
+{viewerjumpto "Authors" "mivreg##authors"}{...}
+{viewerjumpto "Also see" "mivreg##alsosee"}{...}
+{cmd:help mivreg}{right: ({browse "https://doi.org/10.1177/1536867X19893627":SJ19-4: st0580})}
+{hline}
+
+{marker title}{...}
+{title:Title}
+
+{p2colset 5 15 17 2}{...}
+{p2col :{cmd:mivreg} {hline 2}}Estimation and inference on individual parameters
+and specification testing under many (possibly weak) instruments{p_end}
+{p2colreset}{...}
+
+
+{marker syntax}{...}
+{title:Syntax}
+
+{p 8 14 2}
+{cmd:mivreg} {depvar} [{it:{help varlist:indepvars}}]
+{cmd:(}{it:varlist1} {cmd:=} {it:varlist2}{cmd:)} {ifin}
+[{cmd:,} {opt hom} {opt het} {opt rob:ust} {opt full:er} {opt l:evel(#)}]
+
+{pstd}
+{cmd:by}, {cmd:rolling}, {cmd:statsby}, and {cmd:xi} are allowed; see
+{help prefix}.{p_end}
+
+
+{marker description}{...}
+{title:Description}
+
+{pstd}
+{cmd:mivreg} performs estimation and inference on individual parameters and
+specification testing under many (possibly weak) instruments.
+
+{pstd}
+The dependent variable {depvar} is modeled as a linear function of
+{it:{help varlist:indepvars}} and {it:varlist1}, using {it:varlist2} (along
+with {it:indepvars}) as instruments for {it:varlist1}.  The default {opt hom}
+(for "homoskedastic") option is based on the limited-information
+maximum-likelihood (LIML) or FULL estimators.  The {opt het} (for
+"heteroskedastic") option is based on the heteroskedastic limited-information
+maximum-likelihood (HLIM) or heteroskedastic FULL (HFUL) estimators.  Within
+the {cmd:hom} version, the {opt robust} option leads to the
+Hansen-Hausman-Newey variance estimator and Lee-Okui specification test, while
+the default nonrobust variation computes the Bekker variance estimator and
+Anatolyev-Gospodinov specification test.  The {opt het} version implements the
+Hausman-Newey-Woutersen-Chao-Swanson variance estimator and
+Chao-Hausman-Newey-Swanson-Woutersen specification test.  By default, the
+estimators used are LIML or HLIM; the {opt fuller} option makes the Fuller
+correction with parameter c=1, so the FULL or HFUL estimators are used
+instead.
+
+
+{marker options}{...}
+{title:Options}
+
+{phang}
+{cmd:hom} uses the LIML (default) or FULL (in combination with the
+{cmd:fuller} option) estimator.
+
+{phang}
+{cmd:het} uses the HLIM (default) or HFUL (in combination with the
+{cmd:fuller} option) estimator.
+
+{phang}
+{cmd:robust} leads, under the {cmd:hom} option, to the Hansen-Hausman-Newey
+variance estimator and the Lee-Okui specification test, while the default
+nonrobust variation computes the Bekker variance estimator and the
+Anatolyev-Gospodinov specification test.  Under the {cmd:het} option,
+{cmd:robust} leads to the Hausman-Newey-Woutersen-Chao-Swanson variance
+estimator and the Chao-Hausman-Newey-Swanson-Woutersen specification test.
+
+{phang}
+{cmd:fuller} makes the Fuller correction with parameter varsigma = 1, which
+leads to the FULL (in combination with the {cmd:hom} option) or HFUL (in
+combination with the {cmd:het} option) estimator.
+
+{phang}
+{opt level(#)} sets the confidence level.  The default is {cmd:level(95)}.
+
+
+{marker examples}{...}
+{title:Examples}
+
+{phang}{cmd:. mivreg y x_exog (x_endog = instr1 instr2), hom robust}{p_end}
+
+{phang}{cmd:. mivreg y x_exog (x_endog = instr*), het fuller}{p_end}
+
+
+{marker results}{...}
+{title:Stored results}
+
+{pstd}
+{cmd:mivreg} stores the following in {cmd:e()}:
+
+{synoptset 20 tabbed}{...}
+{p2col 4 20 19 2: Scalars}{p_end}
+{synopt:{cmd:e(N)}}number of observations{p_end}
+{synopt:{cmd:e(rmse)}}root mean squared error{p_end}
+{synopt:{cmd:e(F)}}model F statistic{p_end}
+{synopt:{cmd:e(F1)}}first-stage F statistic{p_end}
+{synopt:{cmd:e(df_m_F1)}}first-stage model degrees of freedom{p_end}
+{synopt:{cmd:e(df_r_F1)}}first-stage residual degrees of freedom{p_end}
+{synopt:{cmd:e(df_m)}}model degrees of freedom{p_end}
+{synopt:{cmd:e(df_r)}}residual degrees of freedom{p_end}
+{synopt:{cmd:e(r2)}}R^2{p_end}
+{synopt:{cmd:e(r2_a)}}adjusted R^2{p_end}
+{synopt:{cmd:e(r2_1)}}first-stage R^2{p_end}
+{synopt:{cmd:e(jval)}}model J statistic{p_end}
+{synopt:{cmd:e(jpv)}}J-test p-value{p_end}
+
+{p2col 4 20 19 2: Macros}{p_end}
+{synopt:{cmd:e(depvar)}}name of dependent variable{p_end}
+{synopt:{cmd:e(title)}}title in estimation output{p_end}
+{synopt:{cmd:e(properties)}}{cmd:b} {cmd:V}{p_end}
+{synopt:{cmd:e(model)}}{cmd:hom} or {cmd:het}{p_end}
+{synopt:{cmd:e(instd)}}instrumented variables{p_end}
+{synopt:{cmd:e(insts)}}instruments{p_end}
+
+{p2col 4 20 19 2: Matrices}{p_end}
+{synopt:{cmd:e(b)}}coefficient vector{p_end}
+{synopt:{cmd:e(V)}}variance-covariance matrix of the estimators{p_end}
+
+{p2col 4 20 19 2: Functions}{p_end}
+{synopt:{cmd:e(sample)}}marks estimation sample{p_end}
+
+
+{marker authors}{...}
+{title:Authors}
+
+{pstd}
+Stanislav Anatolyev{break}
+CERGE-EI{break}
+Prague, Czech Republic{break}
+stanislav.anatolyev@cerge-ei.cz
+
+{pstd}
+Alena Skolkova{break}
+CERGE-EI{break}
+Prague, Czech Republic{break}
+alena.skolkova@cerge-ei.cz
+
+
+{marker alsosee}{...}
+{title:Also see}
+
+{p 4 14 2}
+Article:  {it:Stata Journal}, volume 19, number 4: {browse "https://doi.org/10.1177/1536867X19893627":st0580}{p_end}
+
+{p 5 14 2}
+Manual:  {manlink R ivregress}
+
+{p 7 14 2}
+Help:  {manhelp ivregress R}{p_end}

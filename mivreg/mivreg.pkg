@@ -1,0 +1,4 @@
+D 'mivreg': Power calculator for instrumental variable analysis in pharmacoepidemiology Use mivreg With STATA 19
+D
+F mivreg.ado
+F mivreg.hlp

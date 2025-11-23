@@ -1,6 +1,8 @@
 # mivreg
 Power calculator for instrumental variable analysis in pharmacoepidemiology Use mivreg With STATA 19
 
+https://www.youtube.com/watch?v=iIuQl9FyPfM
+
 Olah Data Semarang
 
 WA : +6285227746673 (085227746673)
